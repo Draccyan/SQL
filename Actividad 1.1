@@ -1,0 +1,28 @@
+create database Actividad1
+GO
+use Actividad1
+GO
+create table Carreras(
+	ID varchar(4) not null primary key,
+	Nombre varchar(60) not null,
+	Fecha date not null check (Fecha < GETDATE()),
+	Mail varchar(100) not null,
+	Nivel varchar(11) check (Nivel = 'Diplomatura' or Nivel = 'Pregrado' or Nivel = 'Grado' or Nivel = 'Posgrado'), 
+)
+
+create table Alumnos(
+	Legajo int not null primary key identity(1000, 1),
+	IDCarrera varchar(4) not null foreign key references Carreras(ID),
+	Nombres varchar(60) not null,
+	Apellidos varchar(60) not null,
+	FechaNac date not null check(FechaNac <= GETDATE()),
+	Mail varchar(100) not null unique,
+	Telefono varchar(16),
+)
+
+create table Materias(
+	ID int not null primary key identity (1,1),
+	IDCarrera varchar(4) not null foreign key references Carreras(ID),
+	Nombre varchar(60) not null,
+	CargaHoraria int not null check(CargaHoraria > 0),
+)
